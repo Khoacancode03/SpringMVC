@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout::areas(~{::title},~{::main})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Detail</title>
+</head>
+<body>
+  <main>
+    <span th:text="${product.name}"></span>
+    <img th:src="${product.image}">
+    <span th:text="${product.price}"></span>
+  </main>
+</body>
+</html>

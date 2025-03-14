@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout::areas(~{::title},~{::main})}">
+<head>
+  <meta charset="UTF-8">
+  <title>Product</title>
+
+</head>
+<body>
+<main>
+  <style>
+    .product_list{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2%;
+    }
+    img{
+      height: 300px;
+      width: 300px;
+    }
+    .product_item{
+      width: 30%;
+      text-align: center;
+    }
+  </style>
+  <h1>This is product page</h1>
+<div>
+  <section class="product_list">
+    <a th:href="${'products/'+ product.id}" th:each="product : ${productList}" class="product_item">
+      <p>Id:
+        <span th:text="${product.id}"></span>
+      </p>
+      <img th:src="${product.image}" th:alt="${product.name}" />
+      <p th:text="${product.name}"></p>
+      <p>Tác giả:
+        <span th:text="${product.author?.name}"></span>
+      </p>
+      <p>Xuất bản:
+        <span th:text="${product.totalSold}"></span>
+      </p>
+    </a>
+  </section>
+</div>
+</main>
+</body>
+</html>

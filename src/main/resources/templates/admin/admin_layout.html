@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="areas(title,content)">
+<head>
+    <meta charset="UTF-8">
+    <title th:replace="${title}"></title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    #wrapper {
+      display: flex;
+    }
+    .left {
+      width: 20%;
+      min-height: 100vh;
+      position: fixed;
+      background: #f1f1f1;
+    }
+    .right {
+      width: 80%;
+      margin-left: 20%;
+    }
+  </style>
+</head>
+<body>
+  <main id="wrapper">
+    <section class="left">
+      <div th:insert="~{fragments::admin-side_bar}"></div>
+    </section>
+
+    <section class="right">
+      <section th:replace="${content}"></section>
+    </section>
+
+  </main>
+</body>
+</html>

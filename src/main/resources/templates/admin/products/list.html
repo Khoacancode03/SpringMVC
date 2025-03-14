@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{admin/admin_layout::areas(~{::title},~{::main})}">
+<head>
+    <meta charset="UTF-8">
+    <title>Product List</title>
+
+</head>
+<body>
+<main>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 18px;
+            text-align: left;
+            border: 2px solid #000;
+        }
+        th, td {
+            padding: 10px;
+            border: 2px solid #000;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        img {
+            width: 50px;
+            height: auto;
+            border-radius: 5px;
+        }
+        .paging {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .paging ul {
+            list-style: none;
+            display: flex;
+            padding: 0;
+            border-radius: 5px;
+            background: #f8f9fa;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .paging li {
+            padding: 10px 15px;
+            margin: 2px;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            background: white;
+            font-size: 16px;
+        }
+
+        .paging li a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        .paging li:hover {
+            background: #56aa61;
+            color: white;
+        }
+
+        .paging li a:hover {
+            color: white;
+        }
+
+        .paging .active {
+            background: #56aa61;
+            color: white;
+            font-weight: bold;
+        }
+        .action-btn {
+            padding: 5px 10px;
+            margin: 2px;
+            border: none;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        .edit-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .delete-btn {
+            background-color: #f44336;
+            color: white;
+        }
+
+
+    </style>
+    <h2>Product List For Admin</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Total Sold</th>
+            <th>Image</th>
+            <th>Author</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="product : ${products.content}">
+            <td th:text="${product.id}"></td>
+            <td th:text="${product.name}"></td>
+            <td th:text="${product.price}"></td>
+            <td th:text="${product.totalSold}"></td>
+            <td>
+                <img th:src="${product.image}" alt="Product Image">
+            </td>
+            <td th:text="${product.author.name}"></td>
+            <td>
+                <a th:href="@{/admin/products/edit/{id}(id=${product.id})}">
+                    <button class="action-btn edit-btn">Edit</button>
+                </a>
+                <a th:href="@{/admin/products/delete/{id}(id=${product.id})}" onclick="return confirm('Are you sure you want to delete this product?');">
+                    <button class="action-btn delete-btn">Delete</button>
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="paging">
+        <ul>
+            <li class="page-item" th:if="${!products.first}" th:onclick="|window.location.href = '/admin/products?page=1'|">First</li>
+            <li class="page-item" th:if="${products.hasPrevious}" th:onclick="|window.location.href = '/admin/products?page=' + ${products.number}|">Previous</li>
+            <li th:each="i: ${#numbers.sequence(1, products.totalPages)}"
+                th:classappend="${i == products.number + 1} ? 'active' : ''"
+                th:onclick="|window.location.href='/admin/products?page=${i}'|">
+                <span th:text="${i}"></span>
+            </li>
+            <li class="page-item" th:if="${products.hasNext}" th:onclick="|window.location.href = '/admin/products?page=' + ${(products.number + 2)}|">Next</li>
+            <li class="page-item" th:if="${!products.last}" th:onclick="|window.location.href = '/admin/products?page=' + ${(products.totalPages)}|">Last</li>
+        </ul>
+<!--        <span th:text="'Total Pages: ' + ${products.totalPages}"></span>-->
+    </div>
+</main>
+</body>
+</html>
