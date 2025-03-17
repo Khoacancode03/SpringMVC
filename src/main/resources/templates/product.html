@@ -23,6 +23,10 @@
     }
   </style>
   <h1>This is product page</h1>
+  <form action="#" method="get">
+    <input name="keyword" placeholder="Searching">
+    <input type="submit" value="Search">
+  </form>
 <div>
   <section class="product_list">
     <a th:href="${'products/'+ product.id}" th:each="product : ${productList}" class="product_item">

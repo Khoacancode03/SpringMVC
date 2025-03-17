@@ -1,17 +1,22 @@
 package com.spring.controller;
 
+import ch.qos.logback.core.util.StringUtil;
 import com.spring.model.Author;
 import com.spring.model.Product;
 import com.spring.model.Student;
+import com.spring.repository.AuthorRepository;
+import com.spring.repository.ProductRepository;
 import com.spring.service.ProductService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +25,10 @@ import java.util.List;
 public class HomeController {
     @Autowired
     ProductService productService;
+    @Autowired
+    ProductRepository productRepository;
+    @Autowired
+    private AuthorRepository authorRepository;
 
     @RequestMapping("/home")
     public String homePage(HttpServletRequest request){
@@ -41,8 +50,15 @@ public class HomeController {
     }
 
     @GetMapping("/products")
-    public String productPage(Model model){
-        model.addAttribute("productList", productService.getAll());
+    public String productPage(Model model,
+                              @RequestParam(name = "keyword", required = false) String keyword){
+        if(!StringUtil.isNullOrEmpty(keyword)){
+            List<Author> authorList = authorRepository.findByNameLike("%" + keyword + "%");
+            String name = "%" + keyword + "%";
+            model.addAttribute("productList", productRepository.search(name,authorList, PageRequest.of(0, 10)));
+        }else {
+            model.addAttribute("productList", productService.getAll());
+        }
         return "product";
     }
 

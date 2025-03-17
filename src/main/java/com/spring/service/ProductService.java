@@ -12,4 +12,5 @@ public interface ProductService {
     List<Product> getAll ();
     Page<Product> getAll (int page, int size);
     Product delete (String id);
+
 }
