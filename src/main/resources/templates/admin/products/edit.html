@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+  <form th:action="@{'/admin/products/edit/' + ${product.id}}" method="post">
+    <label>Product Name:</label>
+    <input type="text" name="name" th:value="${product.name}" required />
+
+    <label>Price:</label>
+    <input type="number" step="0.01" name="price" th:value="${product.price}" required />
+
+    <label>Total Sold:</label>
+    <input type="number" name="totalSold" th:value="${product.totalSold}" required />
+
+    <label>Image URL:</label>
+    <input type="text" name="image" th:value="${product.image}" />
+
+    <label>Author:</label>
+    <select name="authorId">
+      <option th:each="author : ${authors}"
+              th:value="${author.id}"
+              th:text="${author.name}"
+              th:selected="${author.id} == ${product.author?.id}">
+      </option>
+    </select>
+    <button type="submit">Update</button>
+  </form>
+
+</body>
+</html>

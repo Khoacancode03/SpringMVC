@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Product</title>
+</head>
+<body>
+<form th:action="@{/admin/products/add}" method="post">
+    <label>Product ID:</label>
+    <input type="text" name="id" required />
+
+    <label>Product Name:</label>
+    <input type="text" name="name" required />
+
+    <label>Price:</label>
+    <input type="number" step="0.01" name="price" required />
+
+    <label>Total Sold:</label>
+    <input type="number" name="totalSold" required />
+
+    <label>Image URL:</label>
+    <input type="text" name="image" />
+
+    <label>Author:</label>
+    <select name="authorId">
+        <option th:each="author : ${authors}" th:value="${author.id}" th:text="${author.name}"></option>
+    </select>
+
+    <button type="submit">Add Product</button>
+</form>
+
+</body>
+</html>

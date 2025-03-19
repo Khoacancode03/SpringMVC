@@ -13,4 +13,9 @@ public interface ProductService {
     Page<Product> getAll (int page, int size);
     Product delete (String id);
 
+    Product getById(String id);
+
+    void updateProduct(String id, String name, Double price, Integer totalSold, String image, String authorId);
+
+    void addProduct(String id, String name, Double price, Integer totalSold, String image, String authorId);
 }

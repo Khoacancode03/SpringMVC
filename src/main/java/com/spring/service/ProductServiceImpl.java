@@ -2,6 +2,7 @@ package com.spring.service;
 
 import com.spring.model.Author;
 import com.spring.model.Product;
+import com.spring.repository.AuthorRepository;
 import com.spring.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,6 +19,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private AuthorRepository authorRepository;
 
 //    List<Product> productList = new ArrayList<Product>();
 //
@@ -66,5 +69,38 @@ public class ProductServiceImpl implements ProductService {
         assert product != null;
         productRepository.delete(product);
         return product;
+    }
+
+    @Override
+    public Product getById(String id) {
+        return productRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public void updateProduct(String id, String name, Double price, Integer totalSold, String image, String authorId) {
+        Product product = productRepository.findById(id).orElse(null);
+        if (product != null) {
+            product.setName(name);
+            product.setPrice(price);
+            product.setTotalSold(totalSold);
+            product.setImage(image);
+            Author author = authorRepository.findById(authorId).orElse(null);
+            product.setAuthor(author);
+            productRepository.save(product);
+        }
+    }
+
+    @Override
+    public void addProduct(String id, String name, Double price, Integer totalSold, String image, String authorId) {
+        Author author = authorRepository.findById(authorId).orElse(null);
+        Product product = Product.builder()
+                .id(id)
+                .name(name)
+                .price(price)
+                .totalSold(totalSold)
+                .image(image)
+                .author(author)
+                .build();
+        productRepository.save(product);
     }
 }
